@@ -24,16 +24,31 @@ blockedChar = "X"
 agentChar = "O"
 cellSeparator = "_"
 
-# TODO: VALIDATION OF MOVEMENT inside each movement function 
-# Movements
+# TODO: VALIDATION OF MOVEMENT inside each movement function
 
+def validateNorth():
+
+    global agentRow
+    global agentCol
+    
+    try:
+        checkedCell = matrix[agentRow-1][agentCol]
+        checkedRow = agentRow -1
+        if ((checkedRow) >= 0) and (checkedCell == 0):
+            return True
+        else:
+            return False
+    except IndexError as e:
+        return False
+
+# Movements
 def moveNorth():
     
     global agentRow
-    print
-    matrix[agentRow][agentCol] = 0
-    agentRow -= 1
-    matrix[agentRow][agentCol] = 2
+    if(validateNorth()):
+        matrix[agentRow][agentCol] = 0
+        agentRow -= 1
+        matrix[agentRow][agentCol] = 2
 
 def moveNorthWest():
 
@@ -44,8 +59,22 @@ def moveNorthWest():
     agentRow -= 1
     agentCol -= 1
     matrix[agentRow][agentCol] = 2
-    
 
+def moveEast():
+    global agentRow
+    global agentCol
+    matrix[agentRow][agentCol] = 0
+    agentCol -= 1
+    matrix[agentRow][agentCol] = 2
+
+def moveSouth():
+    global agentRow
+    global agentCol
+    matrix[agentRow][agentCol] = 0
+    agentRow -= 1
+    matrix[agentRow][agentCol] = 2
+    
+    
 def placeAgent(row,column):
 
     global agentRow
@@ -55,9 +84,6 @@ def placeAgent(row,column):
     agentCol = column
     matrix[row][column] = 2
     
-
-    
-
 def printMatrix():
     print("")
     print("")
@@ -108,8 +134,15 @@ def test():
     placeAgent(2,6)
     printMatrix()
     moveNorth()
-    printMatrix()
-    moveNorthWest()
+    moveNorth()
+    moveNorth()
+    moveNorth()
+    moveNorth()
+    moveNorth()
+    moveNorth()
+    moveNorth()
+    moveNorth()
+    
     printMatrix()
 
 
