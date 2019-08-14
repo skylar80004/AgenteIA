@@ -44,13 +44,13 @@ def validateNorth():
     global agentCol
     
     try:
-        checkedCell = matrix[agentRow-1][agentCol]
         checkedRow = agentRow -1
-        if ((checkedRow) >= 0) and (checkedCell == 0):
+        checkedCell = matrix[checkedRow][agentCol]
+        if ((checkedCell == 0) and (checkedRow >= 0)):
             return True
         else:
             return False
-    except IndexError as e:
+    except:
         return False
     
 def validateNorthWest():
@@ -63,20 +63,84 @@ def validateNorthWest():
         return True
     else:
         return False
-   
+
+def validateWest():
+    global agentRow
+    global agentCol
+
+    checkedCol = agentCol-1
+    checkedCell = matrix[agentRow][checkedCol]
+    if( (checkedCell == 0) and (checkedCol >= 0)):
+        return True
+    else:
+        return False;
+
+def validateSouthWest():
+    pass
+
+def validateSouth():
+    global agentRow
+    global agentCol
+    global rows
+    global columns
+
+    try:
+        checkedRow = agentRow + 1
+        checkedCell = matrix[checkedRow][agentCol]
+        if((checkedCell == 0) and (checkedRow < columns)):
+            return True
+        else:
+            return False
+    except:
+        return False
+
+def validateSouthEast():
+    global agentRow
+    global agentCol
+    global rows
+    global columns
+
+    try:
+        checkedRow = agentRow+1
+        checkedCol = agentCol+1
+        checkedCell = matrix[checkedRow][checkedCol]
+        if((checkedCell == 0) and (checkedRow < rows)and(checkedCol) < columns):
+            return True
+        else:
+            return False
+    except:
+        return False
+
+def validateEast():
+    global agentRow
+    global agentCol
+    global columns
+
+    try:
+        checkedCol = agentCol +1
+        checkedCell = matrix[agentRow][checkedCol]
+        if((checkedCell == 0)and(checkedCol < columns)):
+            return True
+        else:
+            return False
+    except:
+        return False
+
+def validateNorthEast():
+    pass
 # Movements
 def moveNorth():
     
     global agentRow
-    if(validateNorth()):
-        matrix[agentRow][agentCol] = 0
-        agentRow -= 1
-        matrix[agentRow][agentCol] = 2
+
+    matrix[agentRow][agentCol] = 0
+    agentRow -= 1
+    matrix[agentRow][agentCol] = 2
 
 def moveWest():    
     global agentRow
     global agentCol
-    
+
     matrix[agentRow][agentCol] = 0
     agentCol -= 1
     matrix[agentRow][agentCol] = 2
@@ -84,6 +148,7 @@ def moveWest():
 def moveSouth():
     global agentRow
     global agentCol
+       
     matrix[agentRow][agentCol] = 0
     agentRow += 1
     matrix[agentRow][agentCol] = 2
@@ -91,6 +156,7 @@ def moveSouth():
 def moveEast():
     global agentRow
     global agentCol
+
     matrix[agentRow][agentCol] = 0
     agentCol += 1
     matrix[agentRow][agentCol] = 2
@@ -100,6 +166,7 @@ def moveNorthWest():
 
     global agentRow
     global agentCol
+
     
     matrix[agentRow][agentCol] = 0
     agentRow -= 1
@@ -110,7 +177,6 @@ def moveSouthWest():
 
     global agentRow
     global agentCol
-    
     matrix[agentRow][agentCol] = 0
     agentRow += 1
     agentCol -= 1
@@ -120,6 +186,7 @@ def moveSouthEast():
 
     global agentRow
     global agentCol
+
     
     matrix[agentRow][agentCol] = 0
     agentRow += 1
@@ -234,30 +301,27 @@ def test():
     #Agent
     placeAgent(2,6)
     printMatrix()
-    
+
     moveSouth()
     printMatrix()
-    
-    moveSouthEast()
+    moveSouth()
     printMatrix()
-    
-    moveSouthWest()
+    moveSouth()
     printMatrix()
-    
-    moveNorthWest()
+    moveSouth()
     printMatrix()
-    
-    moveWest()
+    moveEast()
     printMatrix()
-    
+    moveEast()
+    printMatrix()
+    moveEast()
+    printMatrix()
+    moveEast()
+    printMatrix()
     moveEast()
     printMatrix()
     
-    moveNorthEast()
-    printMatrix()
-    
-    moveNorth()
-    printMatrix()
+test()
    
 
     
