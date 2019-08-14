@@ -6,6 +6,18 @@
 # 1 is blocked
 # 2 is the agent
 
+# Directions
+# North = 1
+# NorthEast = 2
+# East = 3
+# SouthEast = 4
+# South = 5
+# SouthWest = 6
+# West = 7
+# NorthWest = 8
+
+import random
+
 global rows
 global columns
 global matrix
@@ -40,7 +52,7 @@ def validateNorth():
             return False
     except IndexError as e:
         return False
-
+   
 # Movements
 def moveNorth():
     
@@ -50,6 +62,29 @@ def moveNorth():
         agentRow -= 1
         matrix[agentRow][agentCol] = 2
 
+def moveWest():    
+    global agentRow
+    global agentCol
+    
+    matrix[agentRow][agentCol] = 0
+    agentCol -= 1
+    matrix[agentRow][agentCol] = 2
+
+def moveSouth():
+    global agentRow
+    global agentCol
+    matrix[agentRow][agentCol] = 0
+    agentRow += 1
+    matrix[agentRow][agentCol] = 2
+
+def moveEast():
+    global agentRow
+    global agentCol
+    matrix[agentRow][agentCol] = 0
+    agentCol += 1
+    matrix[agentRow][agentCol] = 2
+
+
 def moveNorthWest():
 
     global agentRow
@@ -57,14 +92,6 @@ def moveNorthWest():
     
     matrix[agentRow][agentCol] = 0
     agentRow -= 1
-    agentCol -= 1
-    matrix[agentRow][agentCol] = 2
-
-def moveWest():    
-    global agentRow
-    global agentCol
-    
-    matrix[agentRow][agentCol] = 0
     agentCol -= 1
     matrix[agentRow][agentCol] = 2
 
@@ -77,15 +104,7 @@ def moveSouthWest():
     agentRow += 1
     agentCol -= 1
     matrix[agentRow][agentCol] = 2
-
     
-def moveSouth():
-    global agentRow
-    global agentCol
-    matrix[agentRow][agentCol] = 0
-    agentRow += 1
-    matrix[agentRow][agentCol] = 2
-
 def moveSouthEast():
 
     global agentRow
@@ -95,15 +114,6 @@ def moveSouthEast():
     agentRow += 1
     agentCol += 1
     matrix[agentRow][agentCol] = 2
-
-
-def moveEast():
-    global agentRow
-    global agentCol
-    matrix[agentRow][agentCol] = 0
-    agentCol += 1
-    matrix[agentRow][agentCol] = 2
-
 
 def moveNorthEast():
 
@@ -115,6 +125,39 @@ def moveNorthEast():
     agentCol += 1
     matrix[agentRow][agentCol] = 2
 
+possibleMoves = {1 : moveNorth,
+                 2 : moveNorthEast,
+                 3 : moveEast,
+                 4 : moveSouthEast,
+                 5 : moveSouth,
+                 6 : moveSouthWest,
+                 7 : moveWest,
+                 8 : moveNorthWest}
+
+
+#Validate the given direction
+# North = 1, NorthEast = 2, East = 3, SouthEast = 4, South = 5, SouthWest = 6, West = 7 NorthWest = 8
+def validateDirection(direction):
+    #TODO validate the direction
+    return True    
+
+# Move automatically
+def randomMovement():
+    # North = 1, NorthEast = 2, East = 3, SouthEast = 4, South = 5, SouthWest = 6, West = 7 NorthWest = 8
+    randomDirection = random.randint(1,8)
+    direction = randomDirection
+
+    validDirection = False
+
+    #Random search a valid direction
+    while(not validDirection):        
+        validDirection = validateDirection(direction)
+        direction= randomDirection
+
+    #Move the agent
+    possibleMoves[direction]()
+    
+            
     
 def placeAgent(row,column):
 
@@ -147,6 +190,12 @@ def printMatrix():
         print("|", end = '')
         print("")
 
+#The agents move to random directions
+def randomPath():
+    placeAgent(2,6)
+    while(True):
+        randomMovement()
+        printMatrix()
 
 def test():
     matrix[0][0] = 1
@@ -200,6 +249,5 @@ def test():
     printMatrix()
    
 
-test()
     
 
