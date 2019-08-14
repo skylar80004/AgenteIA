@@ -52,6 +52,17 @@ def validateNorth():
             return False
     except IndexError as e:
         return False
+    
+def validateNorthWest():
+    global agentRow
+    global agentCol
+    checkedCell = matrix[agentRow-1][agentCol-1]
+    checkedRow = agentRow-1
+    checkedCol = agentCol-1
+    if ((checkedCell == 0 ) and (checkedRow >= 0) and(checkedCol >= 0)):
+        return True
+    else:
+        return False
    
 # Movements
 def moveNorth():
