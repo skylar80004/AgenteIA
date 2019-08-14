@@ -60,20 +60,61 @@ def moveNorthWest():
     agentCol -= 1
     matrix[agentRow][agentCol] = 2
 
-def moveEast():
+def moveWest():    
     global agentRow
     global agentCol
+    
     matrix[agentRow][agentCol] = 0
     agentCol -= 1
     matrix[agentRow][agentCol] = 2
 
+def moveSouthWest():
+
+    global agentRow
+    global agentCol
+    
+    matrix[agentRow][agentCol] = 0
+    agentRow += 1
+    agentCol -= 1
+    matrix[agentRow][agentCol] = 2
+
+    
 def moveSouth():
     global agentRow
     global agentCol
     matrix[agentRow][agentCol] = 0
-    agentRow -= 1
+    agentRow += 1
     matrix[agentRow][agentCol] = 2
+
+def moveSouthEast():
+
+    global agentRow
+    global agentCol
     
+    matrix[agentRow][agentCol] = 0
+    agentRow += 1
+    agentCol += 1
+    matrix[agentRow][agentCol] = 2
+
+
+def moveEast():
+    global agentRow
+    global agentCol
+    matrix[agentRow][agentCol] = 0
+    agentCol += 1
+    matrix[agentRow][agentCol] = 2
+
+
+def moveNorthEast():
+
+    global agentRow
+    global agentCol
+    
+    matrix[agentRow][agentCol] = 0
+    agentRow -= 1
+    agentCol += 1
+    matrix[agentRow][agentCol] = 2
+
     
 def placeAgent(row,column):
 
@@ -133,19 +174,31 @@ def test():
     #Agent
     placeAgent(2,6)
     printMatrix()
-    moveNorth()
-    moveNorth()
-    moveNorth()
-    moveNorth()
-    moveNorth()
-    moveNorth()
-    moveNorth()
-    moveNorth()
-    moveNorth()
     
+    moveSouth()
     printMatrix()
-
-
+    
+    moveSouthEast()
+    printMatrix()
+    
+    moveSouthWest()
+    printMatrix()
+    
+    moveNorthWest()
+    printMatrix()
+    
+    moveWest()
+    printMatrix()
+    
+    moveEast()
+    printMatrix()
+    
+    moveNorthEast()
+    printMatrix()
+    
+    moveNorth()
+    printMatrix()
+   
 
 test()
     
