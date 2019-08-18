@@ -42,7 +42,7 @@ def validateNorth():
 
     global agentRow
     global agentCol
-    
+
     try:
         checkedRow = agentRow -1
         checkedCell = matrix[checkedRow][agentCol]
@@ -52,7 +52,7 @@ def validateNorth():
             return False
     except:
         return False
-    
+
 def validateNorthWest():
     global agentRow
     global agentCol
@@ -76,7 +76,22 @@ def validateWest():
         return False;
 
 def validateSouthWest():
-    pass
+    global agentRow
+    global agentCol
+    global rows
+    global columns
+
+    checkedCol = agentCol - 1
+    checkedRow = agentRow + 1
+    try:
+
+        checkedCell = matrix[checkedRow][checkedCol]
+        if( (checkedCell == 0) and(checkedRow < rows) and(checkedCol >= 0 ) ):
+            return True
+        else:
+            return False
+    except:
+        return False
 
 def validateSouth():
     global agentRow
@@ -127,17 +142,33 @@ def validateEast():
         return False
 
 def validateNorthEast():
-    pass
+
+    global agentRow
+    global agentCol
+    global columns
+    global rows
+
+    checkedCol = agentCol + 1
+    checkedRow = agentRow - 1
+    try:
+        checkedCell = matrix[checkedRow][checkedCol]
+        if((checkedCell == 0) and (checkedCol < columns)and(checkedRow >= 0 )):
+            return True
+        else:
+            return False
+    except:
+        return False
+
 # Movements
 def moveNorth():
-    
+
     global agentRow
 
     matrix[agentRow][agentCol] = 0
     agentRow -= 1
     matrix[agentRow][agentCol] = 2
 
-def moveWest():    
+def moveWest():
     global agentRow
     global agentCol
 
@@ -148,7 +179,7 @@ def moveWest():
 def moveSouth():
     global agentRow
     global agentCol
-       
+
     matrix[agentRow][agentCol] = 0
     agentRow += 1
     matrix[agentRow][agentCol] = 2
@@ -167,7 +198,6 @@ def moveNorthWest():
     global agentRow
     global agentCol
 
-    
     matrix[agentRow][agentCol] = 0
     agentRow -= 1
     agentCol -= 1
@@ -177,17 +207,17 @@ def moveSouthWest():
 
     global agentRow
     global agentCol
+
     matrix[agentRow][agentCol] = 0
     agentRow += 1
     agentCol -= 1
     matrix[agentRow][agentCol] = 2
-    
+
 def moveSouthEast():
 
     global agentRow
     global agentCol
 
-    
     matrix[agentRow][agentCol] = 0
     agentRow += 1
     agentCol += 1
@@ -197,7 +227,7 @@ def moveNorthEast():
 
     global agentRow
     global agentCol
-    
+
     matrix[agentRow][agentCol] = 0
     agentRow -= 1
     agentCol += 1
@@ -217,7 +247,23 @@ possibleMoves = {1 : moveNorth,
 # North = 1, NorthEast = 2, East = 3, SouthEast = 4, South = 5, SouthWest = 6, West = 7 NorthWest = 8
 def validateDirection(direction):
     #TODO validate the direction
-    return True    
+    if direction == 1:
+        return validateNorth()
+    elif direction == 2:
+        return validateNorthEast()
+    elif direction == 3:
+        return validateEast()
+    elif direction == 4:
+        return validateSouthEast()
+    elif direction == 5:
+        return validateSouth()
+    elif direction == 6:
+        return validateSouthWest()
+    elif direction == 7:
+        return validateWest()
+    else: # 8
+        return validateNorthWest()
+
 
 # Move automatically
 def randomMovement():
@@ -226,26 +272,25 @@ def randomMovement():
     direction = randomDirection
 
     validDirection = False
-
     #Random search a valid direction
-    while(not validDirection):        
+    while(not validDirection):
         validDirection = validateDirection(direction)
-        direction= randomDirection
+        direction = randomDirection
 
     #Move the agent
     possibleMoves[direction]()
-    
-            
-    
+
+
+
 def placeAgent(row,column):
 
     global agentRow
     global agentCol
-    
+
     agentRow = row
     agentCol = column
     matrix[row][column] = 2
-    
+
 def printMatrix():
     print("")
     print("")
@@ -254,19 +299,48 @@ def printMatrix():
         for j in range(columns):
             cell = matrix[i][j]
             if(cell == 0):
-                print(" ", end = '') 
+                print(" ", end = '')
                 print(cellSeparator, end = '')
-                print(" ", end = '') 
+                print(" ", end = '')
             elif(cell == 1):
-                print(" ", end = '') 
+                print(" ", end = '')
                 print(blockedChar, end = '')
-                print(" ", end = '') 
+                print(" ", end = '')
             else:
-                print(" ", end = '') 
+                print(" ", end = '')
                 print(agentChar, end = '')
-                print(" ", end = '') 
+                print(" ", end = '')
         print("|", end = '')
         print("")
+
+
+
+def clockwiseMovement():
+
+    directionCounter = 1
+    directionValidation = False
+
+    while(not directionValidation):
+        directionValidation = validateDirection(directionCounter)
+        if(directionValidation):
+            possibleMoves[directionCounter]()
+            break
+        directionCounter += 1
+        if directionCounter == 9:
+            directionCounter = 1
+
+
+
+
+
+#Agent Movements
+#ClockWise, the agent tries all the direction clockwise, it moves to the first one available
+def clockwisePath():
+
+    placeAgent(2,6)
+    while(True):
+        clockwiseMovement()
+        printMatrix()
 
 #The agents move to random directions
 def randomPath():
@@ -299,30 +373,18 @@ def test():
     matrix[3][8] = 1
 
     #Agent
-    placeAgent(2,6)
+    placeAgent(8,5)
     printMatrix()
 
-    moveSouth()
+    moveSouthWest()
     printMatrix()
-    moveSouth()
+    moveSouthWest()
     printMatrix()
-    moveSouth()
+    moveSouthWest()
     printMatrix()
-    moveSouth()
+    moveSouthWest()
     printMatrix()
-    moveEast()
+    moveSouthWest()
     printMatrix()
-    moveEast()
-    printMatrix()
-    moveEast()
-    printMatrix()
-    moveEast()
-    printMatrix()
-    moveEast()
-    printMatrix()
-    
-test()
-   
 
-    
-
+clockwisePath()
