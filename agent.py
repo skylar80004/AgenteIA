@@ -53,17 +53,6 @@ def validateNorth():
     except:
         return False
 
-def validateNorthWest():
-    global agentRow
-    global agentCol
-    checkedCell = matrix[agentRow-1][agentCol-1]
-    checkedRow = agentRow-1
-    checkedCol = agentCol-1
-    if ((checkedCell == 0 ) and (checkedRow >= 0) and(checkedCol >= 0)):
-        return True
-    else:
-        return False
-
 def validateWest():
     global agentRow
     global agentCol
@@ -75,24 +64,6 @@ def validateWest():
     else:
         return False;
 
-def validateSouthWest():
-    global agentRow
-    global agentCol
-    global rows
-    global columns
-
-    checkedCol = agentCol - 1
-    checkedRow = agentRow + 1
-    try:
-
-        checkedCell = matrix[checkedRow][checkedCol]
-        if( (checkedCell == 0) and(checkedRow < rows) and(checkedCol >= 0 ) ):
-            return True
-        else:
-            return False
-    except:
-        return False
-
 def validateSouth():
     global agentRow
     global agentCol
@@ -103,23 +74,6 @@ def validateSouth():
         checkedRow = agentRow + 1
         checkedCell = matrix[checkedRow][agentCol]
         if((checkedCell == 0) and (checkedRow < columns)):
-            return True
-        else:
-            return False
-    except:
-        return False
-
-def validateSouthEast():
-    global agentRow
-    global agentCol
-    global rows
-    global columns
-
-    try:
-        checkedRow = agentRow+1
-        checkedCol = agentCol+1
-        checkedCell = matrix[checkedRow][checkedCol]
-        if((checkedCell == 0) and (checkedRow < rows)and(checkedCol) < columns):
             return True
         else:
             return False
@@ -140,24 +94,70 @@ def validateEast():
             return False
     except:
         return False
-
-def validateNorthEast():
-
+    
+def validateNorthWest():
     global agentRow
     global agentCol
-    global columns
-    global rows
+    checkedCell = matrix[agentRow-1][agentCol-1]
+    checkedRow = agentRow-1
+    checkedCol = agentCol-1
+    if ((checkedCell == 0 ) and (checkedRow >= 0) and(checkedCol >= 0)):
+        return True
+    else:
+        return False
 
-    checkedCol = agentCol + 1
-    checkedRow = agentRow - 1
+def validateSouthWest():
+    global agentRow
+    global agentCol
+    global rows
+    global columns
+
     try:
+        checkedRow = agentRow+1
+        checkedCol = agentCol-1
         checkedCell = matrix[checkedRow][checkedCol]
-        if((checkedCell == 0) and (checkedCol < columns)and(checkedRow >= 0 )):
+        if((checkedCell == 0) and (checkedRow < rows)and(checkedCol) < columns):
             return True
         else:
             return False
     except:
         return False
+
+
+def validateSouthEast():
+    global agentRow
+    global agentCol
+    global rows
+    global columns
+
+    try:
+        checkedRow = agentRow+1
+        checkedCol = agentCol+1
+        checkedCell = matrix[checkedRow][checkedCol]
+        if((checkedCell == 0) and (checkedRow < rows)and(checkedCol) < columns):
+            return True
+        else:
+            return False
+    except:
+        return False
+
+def validateNorthEast():
+    global agentRow
+    global agentCol
+    global rows
+    global columns
+
+    try:
+        checkedRow = agentRow+1
+        checkedCol = agentCol-1
+        checkedCell = matrix[checkedRow][checkedCol]
+        if((checkedCell == 0) and (checkedRow < rows)and(checkedCol) < columns):
+            return True
+        else:
+            return False
+    except:
+        return False
+
 
 # Movements
 def moveNorth():
@@ -242,40 +242,33 @@ possibleMoves = {1 : moveNorth,
                  7 : moveWest,
                  8 : moveNorthWest}
 
+validationsMoves = {1 : validateNorth,
+                    2 : validateNorthEast,
+                    3 : validateEast,
+                    4 : validateSouthEast,
+                    5 : validateSouth,
+                    6 : validateSouthWest,
+                    7 : validateWest,
+                    8 : validateNorthWest}
+
 
 #Validate the given direction
 # North = 1, NorthEast = 2, East = 3, SouthEast = 4, South = 5, SouthWest = 6, West = 7 NorthWest = 8
-def validateDirection(direction):
-    #TODO validate the direction
-    if direction == 1:
-        return validateNorth()
-    elif direction == 2:
-        return validateNorthEast()
-    elif direction == 3:
-        return validateEast()
-    elif direction == 4:
-        return validateSouthEast()
-    elif direction == 5:
-        return validateSouth()
-    elif direction == 6:
-        return validateSouthWest()
-    elif direction == 7:
-        return validateWest()
-    else: # 8
-        return validateNorthWest()
+def validateDirection(direction):    
+    return validationsMoves[direction]()    
 
 
 # Move automatically
 def randomMovement():
-    # North = 1, NorthEast = 2, East = 3, SouthEast = 4, South = 5, SouthWest = 6, West = 7 NorthWest = 8
-    randomDirection = random.randint(1,8)
-    direction = randomDirection
+    # North = 1, NorthEast = 2, East = 3, SouthEast = 4, South = 5, SouthWest = 6, West = 7 NorthWest = 8    
+    direction = random.randint(1,8)
 
     validDirection = False
     #Random search a valid direction
     while(not validDirection):
+        print(direction)
         validDirection = validateDirection(direction)
-        direction = randomDirection
+        direction= random.randint(1,8)
 
     #Move the agent
     possibleMoves[direction]()
@@ -386,5 +379,16 @@ def test():
     printMatrix()
     moveSouthWest()
     printMatrix()
+    moveEast()
+    printMatrix()
+    moveEast()
+    printMatrix()
+    moveEast()
+    printMatrix()
+    moveEast()
+    printMatrix()
+    
+
+   
 
 clockwisePath()
